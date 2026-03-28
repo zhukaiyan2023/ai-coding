@@ -105,3 +105,70 @@ security:
   secrets_detection: true
   dependency_audit: true
   code_analysis: true
+
+# Harness Engineering 配置
+# 参考: 
+# - https://blog.langchain.com/improving-deep-agents-with-harness-engineering/
+# - https://www.anthropic.com/engineering/harness-design-long-running-apps
+harness:
+  # 三智能体架构 (Planner, Generator, Evaluator)
+  multi_agent:
+    enabled: true
+    
+  # Planner: 需求 → 详细规范
+  planner:
+    enabled: true
+    prompt_expansion: true
+    scope_ambition: high
+    
+  # Generator: 一次实现一个功能
+  generator:
+    one_feature_at_a_time: true
+    self_evaluate: true
+    
+  # Evaluator: 独立 QA 测试
+  evaluator:
+    enabled: true
+    use_playwright: true
+    criteria:
+      - product_depth
+      - functionality
+      - visual_design
+      - code_quality
+    hard_threshold: true
+    iteration_rounds: 3
+  
+  # Sprint Contract: 实现前协商"完成标准"
+  sprint_contract:
+    enabled: true
+    negotiate_before_build: true
+    
+  # Build-Verify 循环
+  build_verify_loop:
+    enabled: true
+    max_iterations: 5
+  
+  # Doom Loop 检测
+  doom_loop_detection:
+    enabled: true
+    same_file_edit_threshold: 3
+    suggest_replan: true
+  
+  # 时间预算
+  time_budget:
+    planning: 20
+    building: 40
+    verifying: 30
+    fixing: 10
+  
+  # 上下文注入
+  context_injection:
+    directory_structure: true
+    available_tools: true
+    coding_standards: true
+  
+  # 自我验证
+  self_verification:
+    require_tests: true
+    edge_cases: true
+    verify_against_spec: true
