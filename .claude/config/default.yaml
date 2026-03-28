@@ -53,14 +53,28 @@ hooks:
 
 java:
   jdk_version: "21"
+  source_target: "21"
   home: "/opt/homebrew/opt/openjdk@21/libexec/openjdk.jdk/Contents/Home"
+  
+  features:
+    - virtual_threads
+    - pattern_matching_switch
+    - sequenced_collections
+    - record
+    - record_patterns
+    - scoped_values
+    
+  libraries:
+    mapstruct: true
+    beanutils: false
 
 linting:
   config_dir: ".claude/config/lint"
   
   java:
     tool: "checkstyle"
-    config: ".claude/config/lint/checkstyle.xml"
+    config: ".claude/config/lint/alibaba-checkstyle.xml"
+    standard: "alibaba-p3c"
     strict: true
     
   typescript:

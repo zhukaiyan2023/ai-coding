@@ -1,7 +1,49 @@
 # Skill: Java COLA Developer
 
 ## 描述
-使用此 Skill 进行后端 Java + Spring Boot 4 + COLA DDD 开发。
+使用此 Skill 进行后端 Java 21 + Spring Boot 4 + COLA DDD 开发。
+
+## JDK 21 新特性 (优先使用)
+
+| 特性 | JEP | 使用场景 |
+|------|-----|----------|
+| Virtual Threads | JEP 444 | 高并发场景，使用 `Thread.ofVirtual()` |
+| Pattern Matching for switch | JEP 441 | switch 表达式匹配对象类型 |
+| Sequenced Collections | JEP 431 | 使用 `SequencedCollection`, `SequencedSet`, `SequencedMap` |
+| Record | JEP 395 | **优先使用 Record** 作为 DTO、VO、DTO 组装 |
+| Record Patterns | JEP 440 | `instanceof` 和 `switch` 中使用 record 解构 |
+| Unnamed Patterns | JEP 443 | 不使用的变量用 `_` 替代 |
+| Scoped Values | JEP 446 | 优先使用 `ScopedValue` 代替 `ThreadLocal` |
+| String Templates | JEP 430 | 使用 `STR."..."` 模板字符串 |
+
+### Record 使用规范
+
+```java
+// ✅ 使用 Record 作为 DTO/VO（不可变、安全）
+public record UserDTO(Long id, String name, String email) {}
+
+// ✅ Record 作为 Cmd/Qry
+public record CreateUserCmd(String name, String email) {}
+
+// ✅ 带校验的 Record
+public record CreateUserCmd(
+    @NotBlank String name,
+    @Email String email
+) {}
+```
+
+### 对象映射规范
+
+```java
+// ✅ 使用 MapStruct（编译时生成，性能好）
+@Mapper(componentModel = "spring")
+public interface UserMapper {
+    UserEntity toEntity(UserDTO dto);
+    UserDTO toDTO(UserEntity entity);
+    UserVO toVO(UserEntity entity);
+}
+
+// ❌ 禁止使用 BeanUtils / BeanCopy
 
 ## 适用场景
 - 创建新的 COLA 模块
@@ -46,7 +88,7 @@
 
 #### 2.4 API 层
 
-- DTO 定义 (Cmd, Qry, ROC, VO)
+- **使用 Record 定义** DTO (Cmd, Qry, ROC, VO)
 - Facade 接口
 - Controller 实现
 
