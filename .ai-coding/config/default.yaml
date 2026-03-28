@@ -1,0 +1,81 @@
+# AI Coding Configuration
+# 默认配置文件
+
+version: "1.0"
+
+project:
+  name: "Full-Stack Project"
+  type: "multi-platform"
+  
+platforms:
+  backend:
+    - java
+    - spring-boot-4
+    - cola-ddd
+    
+  frontend:
+    - reactor
+    - ios
+    - harmonyos
+
+directories:
+  backend: "backend" | "java" | "src/main/java"
+  frontend: "frontend" | "web" | "src"
+  mobile: "mobile"
+
+rules:
+  enabled:
+    - backend-java-springboot-cola
+    - frontend-reactor-ios-harmony
+  
+  strict_mode: true
+  
+  auto_apply: true
+
+skills:
+  default:
+    - java-cola-developer
+    - frontend-developer
+  
+  context_aware: true
+
+hooks:
+  pre_commit:
+    enabled: true
+    auto_install: true
+    
+  post_merge:
+    enabled: true
+    
+  ci_cd:
+    provider: "github-actions"
+    auto_trigger: true
+
+linting:
+  java:
+    tool: "spotbugs" | "checkstyle"
+    strict: true
+    
+  typescript:
+    tool: "eslint"
+    strict: true
+    
+  swift:
+    tool: "swiftlint"
+
+testing:
+  coverage_threshold: 80
+  auto_test: true
+  
+  backend:
+    framework: "junit5"
+    coverage: "jacoco"
+    
+  frontend:
+    framework: "vitest" | "jest"
+    coverage: "vitest"
+
+security:
+  secrets_detection: true
+  dependency_audit: true
+  code_analysis: true
