@@ -28,7 +28,8 @@ Features/{Module}/
 |------|------|
 | 全局状态 | @Published in ObservableObject |
 | 服务端状态 | Combine Publisher |
-| 局部状态 | @State |
+| 局部状态 (SwiftUI) | @State |
+| 局部状态 (UIKit) | @Published in 本地 ObservableObject |
 
 ### Step 4: 任务分解
 

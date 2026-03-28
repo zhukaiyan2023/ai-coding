@@ -28,8 +28,8 @@
 创建顺序：值对象 → 实体 → 聚合根 → 仓储接口 → 领域服务
 ```
 
-- 值对象：不可变，使用 `@DomainValueObject`
-- 聚合根：包含 `@DomainAggregate` + `@Id` + `version` + 领域方法
+- 值对象：不可变，使用 `@ValueObject` 或 JSR-303 注解
+- 聚合根：包含 `@Entity` + `@Id` + `version` + 领域方法
 - 仓储接口：定义 `Mono<Entity>` / `Flux<Entity>` 返回类型
 
 #### 2.2 Infrastructure 层

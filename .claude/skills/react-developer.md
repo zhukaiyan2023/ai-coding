@@ -1,7 +1,7 @@
-# Skill: Reactor Developer
+# Skill: React Developer
 
 ## 描述
-使用此 Skill 进行 Reactor (React) 前端开发。
+使用此 Skill 进行 React 前端开发。
 
 ---
 

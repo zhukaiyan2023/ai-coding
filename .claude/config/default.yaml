@@ -14,7 +14,7 @@ platforms:
     - cola-ddd
     
   frontend:
-    - reactor
+    - react
     - ios
     - harmonyos
 
@@ -50,6 +50,10 @@ hooks:
   ci_cd:
     provider: "github-actions"
     auto_trigger: true
+
+java:
+  jdk_version: "21"
+  home: "/opt/homebrew/opt/openjdk@21/libexec/openjdk.jdk/Contents/Home"
 
 linting:
   java:
