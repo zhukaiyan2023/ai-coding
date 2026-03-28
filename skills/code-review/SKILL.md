@@ -1,274 +1,274 @@
 ---
 name: code-review
-description: Code quality review skill for performing effective code reviews. Use when reviewing pull requests or performing self-review before submitting changes.
+description: 代码质量审查技能，用于执行有效的代码审查。在审查拉取请求或提交更改前进行自我审查时使用。
 ---
 
-# Code Review Skill
+# 代码审查技能
 
-## Overview
+## 概述
 
-This skill provides a systematic approach to code review, focusing on code quality, security, performance, and best practices. It helps reviewers provide constructive feedback and authors prepare their code for review.
+此技能提供系统的代码审查方法，专注于代码质量、安全性、性能和最佳实践。它帮助审查者提供建设性的反馈，并帮助作者准备好代码供审查。
 
-## When to Use
+## 使用场景
 
-- Reviewing pull requests
-- Self-review before submitting changes
-- Performing peer reviews
-- Evaluating code quality
-- Checking security vulnerabilities
+- 审查拉取请求
+- 提交更改前进行自我审查
+- 执行同行评审
+- 评估代码质量
+- 检查安全漏洞
 
-## Review Checklist
+## 审查清单
 
-### 1. Code Quality
+### 1. 代码质量
 
-- [ ] Code follows project style guide
-- [ ] Variable and function names are descriptive
-- [ ] Functions are small and focused (SRP)
-- [ ] No code duplication (>5% threshold)
-- [ ] Comments explain WHY, not WHAT
-- [ ] Code is readable and self-documenting
+- [ ] 代码遵循项目风格指南
+- [ ] 变量和函数名称描述性强
+- [ ] 函数小且专注（单一职责原则）
+- [ ] 无代码重复（>5% 阈值）
+- [ ] 注释解释为什么，而不是做什么
+- [ ] 代码可读且自文档化
 
-### 2. Type Safety
+### 2. 类型安全
 
-- [ ] No `any` types without justification
-- [ ] No `@ts-ignore` or `@ts-expect-error`
-- [ ] TypeScript strict mode enabled
-- [ ] Proper type definitions for APIs
-- [ ] Generics used appropriately
+- [ ] 无 `any` 类型（无充分理由）
+- [ ] 无 `@ts-ignore` 或 `@ts-expect-error`
+- [ ] TypeScript 严格模式已启用
+- [ ] API 有适当的类型定义
+- [ ] 适当使用泛型
 
-### 3. Error Handling
+### 3. 错误处理
 
-- [ ] No empty catch blocks
-- [ ] Errors are logged with context
-- [ ] User-friendly error messages
-- [ ] Proper exception types used
-- [ ] Errors propagate correctly
+- [ ] 无空 catch 块
+- [ ] 错误带有上下文记录
+- [ ] 用户友好的错误消息
+- [ ] 使用适当的异常类型
+- [ ] 错误正确传播
 
-### 4. Security
+### 4. 安全性
 
-- [ ] No hardcoded secrets
-- [ ] Input validation implemented
-- [ ] SQL injection prevented
-- [ ] XSS vulnerabilities avoided
-- [ ] Authentication/authorization checked
-- [ ] Sensitive data encrypted
+- [ ] 无硬编码的 secrets
+- [ ] 实现了输入验证
+- [ ] 防止 SQL 注入
+- [ ] 避免 XSS 漏洞
+- [ ] 检查了认证/授权
+- [ ] 敏感数据已加密
 
-### 5. Performance
+### 5. 性能
 
-- [ ] No N+1 query problems
-- [ ] Appropriate use of caching
-- [ ] Lazy loading where applicable
-- [ ] Bundle size optimized
-- [ ] No memory leaks
+- [ ] 无 N+1 查询问题
+- [ ] 适当使用缓存
+- [ ] 适当使用懒加载
+- [ ] 优化了包大小
+- [ ] 无内存泄漏
 
-### 6. Testing
+### 6. 测试
 
-- [ ] Test coverage meets requirements
-- [ ] Tests are independent
-- [ ] Edge cases covered
-- [ ] Mock external dependencies
-- [ ] Tests are maintainable
+- [ ] 测试覆盖率符合要求
+- [ ] 测试独立
+- [ ] 覆盖了边界情况
+- [ ] Mock 了外部依赖
+- [ ] 测试可维护
 
-### 7. Documentation
+### 7. 文档
 
-- [ ] API documentation complete
-- [ ] README updated if needed
-- [ ] Complex logic explained
-- [ ] Breaking changes documented
+- [ ] API 文档完整
+- [ ] 需要时更新了 README
+- [ ] 解释了复杂逻辑
+- [ ] 记录了破坏性更改
 
-## Review Types
+## 审查类型
 
-### 1. Quick Review (< 5 minutes)
+### 1. 快速审查（< 5 分钟）
 
-For small changes, typos, minor fixes:
-
-```
-✅ Check: Does it work as intended?
-✅ Check: No obvious bugs?
-✅ Check: Code style consistent?
-```
-
-### 2. Standard Review (15-30 minutes)
-
-For feature changes, bug fixes:
+对于小的更改、拼写错误、小修复：
 
 ```
-✅ Full checklist review
-✅ Security considerations
-✅ Performance impact
-✅ Test coverage
+✅ 检查：是否符合预期工作？
+✅ 检查：无明显错误？
+✅ 检查：代码风格一致？
 ```
 
-### 3. Deep Review (1+ hour)
+### 2. 标准审查（15-30 分钟）
 
-For architectural changes, critical components:
+对于功能更改、错误修复：
 
 ```
-✅ Full standard review
-✅ Design pattern analysis
-✅ Scalability considerations
-✅ Integration testing
-✅ Documentation review
+✅ 完整清单审查
+✅ 安全考虑
+✅ 性能影响
+✅ 测试覆盖率
 ```
 
-## Giving Feedback
+### 3. 深度审查（1+ 小时）
 
-### Good Comments
+对于架构更改、关键组件：
+
+```
+✅ 完整标准审查
+✅ 设计模式分析
+✅ 可扩展性考虑
+✅ 集成测试
+✅ 文档审查
+```
+
+## 提供反馈
+
+### 好的评论
 
 ```typescript
-// ✅ Good: Specific and actionable
-// Consider using Map<string, User> for O(1) lookup
-// instead of array.find() which is O(n)
+// ✅ 好：具体且可操作
+// 考虑使用 Map<string, User> 实现 O(1) 查询
+// 而不是 array.find() 的 O(n)
 
-// ✅ Good: Explains the reasoning
-// Using event delegation to handle dynamic elements
-// This is more performant than attaching listeners to each item
+// ✅ 好：解释原因
+// 使用事件委托处理动态元素
+// 这比给每个项目附加监听器更高效
 
-// ✅ Good: Questions are polite
-// What do you think about extracting this into a utility function?
-// It would improve reusability.
+// ✅ 好：问题礼貌
+// 你认为将其提取到工具函数中怎么样？
+// 它可以提高可重用性。
 ```
 
-### Bad Comments
+### 不好的评论
 
 ```typescript
-// ❌ Bad: Vague
-// This is bad
+// ❌ 不好：模糊
+// 这很糟糕
 
-// ❌ Bad: Personal attack
-// Who wrote this? It's terrible.
+// ❌ 不好：人身攻击
+// 谁写的？太糟糕了。
 
-// ❌ Bad: Without context
-// Use XXX instead
+// ❌ 不好：没有上下文
+// 使用 XXX 代替
 ```
 
-## Review Response Template
+## 审查响应模板
 
-### For Author
+### 对于作者
 
 ```
-## Self-Review Summary
+## 自我审查总结
 
-- [ ] I've tested my changes locally
-- [ ] All tests pass
-- [ ] I've considered edge cases
-- [ ] I've updated documentation
+- [ ] 我已在本地测试了更改
+- [ ] 所有测试通过
+- [ ] 我考虑了边界情况
+- [ ] 我更新了文档
 
-## Testing Performed
+## 执行的测试
 
-- Unit tests: ✅
-- Integration tests: ✅
-- Manual testing: ✅ (describe what you tested)
+- 单元测试：✅
+- 集成测试：✅
+- 手动测试：✅（描述你测试的内容）
 
-## Related Issues
+## 相关问题
 
 - Fixes #123
 - Related to #456
 ```
 
-### For Reviewer
+### 对于审查者
 
 ```
-## Code Review: [PR Title]
+## 代码审查：[PR 标题]
 
-### Overall Impression
-[Positive start, then areas for improvement]
+### 总体印象
+积极开始，然后是改进领域
 
-### Must Fix (Blocking)
-- [ ] Security issue: Line 45 - SQL injection risk
-- [ ] Bug: Line 78 - null pointer exception
+### 必须修复（阻塞）
+- [ ] 安全问题：第 45 行 - SQL 注入风险
+- [ ] 错误：第 78 行 - 空指针异常
 
-### Should Fix (Recommended)
-- [ ] Performance: Consider caching this result
-- [ ] Readability: Extract to named constant
+### 应该修复（推荐）
+- [ ] 性能：考虑缓存此结果
+- [ ] 可读性：提取为命名常量
 
-### Nitpicks (Optional)
-- [ ] Minor: Extra blank line at line 12
-- [ ] Style: Could use const instead of let
+### 挑剔（可选）
+- [ ] 小问题：第 12 行多余空行
+- [ ] 样式：可以使用 const 而不是 let
 
-### Questions
-- [ ] Why did you choose this approach?
-- [ ] How does this handle edge case X?
+### 问题
+- [ ] 你为什么选择这种方法？
+- [ ] 这如何处理边界情况 X？
 
-### Praise
-- Great use of TypeScript generics!
-- Clean separation of concerns.
-- Excellent test coverage!
+### 表扬
+- 很好地使用 TypeScript 泛型！
+- 关注点分离清晰。
+- 测试覆盖率优秀！
 ```
 
-## Anti-Patterns
+## 反模式
 
-### For Reviewers
+### 对于审查者
 
-- ❌ Don't nitpick formatting (use linters instead)
-- ❌ Don't block on personal preferences
-- ❌ Don't review large changes in one go
-- ❌ Don't be silent on issues
-- ❌ Don't forget to praise good code
+- ❌ 不要挑剔格式（使用 linters）
+- ❌ 不要阻止个人偏好
+- ❌ 不要一次审查大量更改
+- ❌ 不要对问题保持沉默
+- ❌ 不要忘记表扬好的代码
 
-### For Authors
+### 对于作者
 
-- ❌ Don't take feedback personally
-- ❌ Don't argue about style (use linters)
-- ❌ Don't submit huge PRs
-- ❌ Don't skip self-review
-- ❌ Don't ignore blocking issues
+- ❌ 不要把反馈个人化
+- ❌ 不要争论样式（使用 linters）
+- ❌ 不要提交大型 PR
+- ❌ 不要跳过自我审查
+- ❌ 不要忽略阻塞性问题
 
-## Best Practices
+## 最佳实践
 
-### Before Submitting
+### 提交前
 
-1. Run all tests locally
-2. Run linters and formatters
-3. Self-review your changes
-4. Write clear PR description
-5. Keep PRs atomic and focused
+1. 在本地运行所有测试
+2. 运行 linters 和 formatters
+3. 自我审查更改
+4. 写清晰的 PR 描述
+5. 保持 PR 原子性和专注性
 
-### During Review
+### 审查期间
 
-1. Test the changes locally
-2. Check edge cases
-3. Verify security implications
-4. Consider performance impact
-5. Provide constructive feedback
+1. 在本地测试更改
+2. 检查边界情况
+3. 验证安全影响
+4. 考虑性能影响
+5. 提供建设性的反馈
 
-### After Review
+### 审查后
 
-1. Respond to all comments
-2. Make requested changes
-3. Re-request review
-4. Address questions
+1. 响应所有评论
+2. 进行要求的更改
+3. 重新请求审查
+4. 回答问题
 
-## Security Checklist
+## 安全检查清单
 
 ```
-Authentication & Authorization
-- [ ] Proper authentication checks
-- [ ] Role-based access control
-- [ ] Session management secure
+认证和授权
+- [ ] 适当的认证检查
+- [ ] 基于角色的访问控制
+- [ ] 会话管理安全
 
-Data Protection
-- [ ] Sensitive data encrypted
-- [ ] No credentials in code
-- [ ] Environment variables used
+数据保护
+- [ ] 敏感数据已加密
+- [ ] 代码中无凭据
+- [ ] 使用环境变量
 
-Input Validation
-- [ ] All inputs validated
-- [ ] SQL injection prevented
-- [ ] XSS prevention in place
-- [ ] CSRF tokens implemented
+输入验证
+- [ ] 所有输入已验证
+- [ ] 防止 SQL 注入
+- [ ] 防止 XSS
+- [ ] 实现了 CSRF 令牌
 
-API Security
-- [ ] Rate limiting
-- [ ] HTTPS only
-- [ ] CORS properly configured
-- [ ] API keys rotated
+API 安全
+- [ ] 限流
+- [ ] 仅 HTTPS
+- [ ] 正确配置 CORS
+- [ ] API 密钥轮换
 ```
 
 ---
 
-## References
+## 参考资料
 
-- Google Code Review Guide: https://google.github.io/eng-practices/review/
-- GitHub Pull Request Best Practices
-- OWASP Security Guidelines
+- Google 代码审查指南：https://google.github.io/eng-practices/review/
+- GitHub 拉取请求最佳实践
+- OWASP 安全指南

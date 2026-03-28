@@ -1,340 +1,340 @@
 ---
 name: debugging
-description: Systematic debugging skill for identifying and fixing bugs. Use when investigating issues, crashes, or unexpected behavior in the codebase.
+description: 系统性调试技能，用于识别和修复错误。在调查问题、崩溃或代码库中的意外行为时使用。
 ---
 
-# Debugging Skill
+# 调试技能
 
-## Overview
+## 概述
 
-This skill provides a systematic approach to debugging that helps identify root causes efficiently. It follows the scientific method: observe, hypothesize, experiment, and conclude.
+此技能提供系统的调试方法，帮助高效地识别根本原因。它遵循科学方法：观察、假设、实验和结论。
 
-## When to Use
+## 使用场景
 
-- Investigating crashes or errors
-- Fixing unexpected behavior
-- Performance issues
-- Memory leaks
-- Race conditions
-- Any bug that needs to be found and fixed
+- 调查崩溃或错误
+- 修复意外行为
+- 性能问题
+- 内存泄漏
+- 竞态条件
+- 任何需要发现和修复的错误
 
-## Debugging Process
+## 调试过程
 
-### Phase 1: Understand the Problem
-
-```
-1. Collect Information
-   - What is the expected behavior?
-   - What is the actual behavior?
-   - When does it occur? (reproduction steps)
-   - What environment? (browser, OS, versions)
-   - Any error messages?
-
-2. Isolate the Problem
-   - Can you reproduce it consistently?
-   - Does it happen in specific conditions?
-   - What's the scope? (single user, all users)
-```
-
-### Phase 2: Gather Evidence
+### 阶段 1：理解问题
 
 ```
-1. Check Logs
-   - Application logs
-   - Browser console
-   - Server logs
-   - Error tracking (Sentry, etc.)
+1. 收集信息
+   - 预期行为是什么？
+   - 实际行为是什么？
+   - 何时发生？（复现步骤）
+   - 什么环境？（浏览器、操作系统、版本）
+   - 有错误消息吗？
 
-2. Use Debugging Tools
-   - Browser DevTools
-   - IDE debugger
-   - Network inspector
-   - Database query logs
+2. 隔离问题
+   - 你能一致地复现它吗？
+   - 它在特定条件下发生吗？
+   - 范围是什么？（单个用户、所有用户）
 ```
 
-### Phase 3: Form Hypothesis
+### 阶段 2：收集证据
 
 ```
-Based on evidence, form a hypothesis:
-- "The API returns null for user ID"
-- "There's a race condition in the async flow"
-- "Memory isn't being released in the component"
+1. 检查日志
+   - 应用日志
+   - 浏览器控制台
+   - 服务器日志
+   - 错误追踪（Sentry 等）
+
+2. 使用调试工具
+   - 浏览器 DevTools
+   - IDE 调试器
+   - 网络检查器
+   - 数据库查询日志
 ```
 
-### Phase 4: Test Hypothesis
+### 阶段 3：形成假设
 
 ```
-1. Create minimal reproduction
-2. Add logging to verify hypothesis
-3. Use breakpoints to inspect state
-4. Run targeted tests
+根据证据，形成假设：
+- "API 对用户 ID 返回 null"
+- "异步流程中存在竞态条件"
+- "组件中的内存没有被释放"
 ```
 
-### Phase 5: Fix and Verify
+### 阶段 4：测试假设
 
 ```
-1. Implement the fix
-2. Run tests to verify fix
-3. Check for edge cases
-4. Monitor in production
+1. 创建最小复现
+2. 添加日志验证假设
+3. 使用断点检查状态
+4. 运行针对性测试
 ```
 
-## Common Bug Patterns
+### 阶段 5：修复和验证
 
-### 1. Null/Undefined Errors
+```
+1. 实现修复
+2. 运行测试验证修复
+3. 检查边界情况
+4. 在生产环境中监控
+```
+
+## 常见错误模式
+
+### 1. 空值/未定义错误
 
 ```typescript
-// ❌ Problem: No null check
+// ❌ 问题：无空值检查
 const userName = user.profile.name;
 
-// ✅ Fix: Optional chaining
+// ✅ 修复：可选链
 const userName = user?.profile?.name;
 
-// ✅ Fix: Default value
-const userName = user?.profile?.name ?? 'Unknown';
+// ✅ 修复：默认值
+const userName = user?.profile?.name ?? '未知';
 ```
 
-### 2. Async Issues
+### 2. 异步问题
 
 ```typescript
-// ❌ Problem: Not awaiting
+// ❌ 问题：未等待
 async function getData() {
-  fetchData(); // Returns promise, not awaited
-  render(); // Runs before data arrives
+  fetchData(); // 返回 promise，未等待
+  render(); // 数据到达前运行
 }
 
-// ✅ Fix: Proper async/await
+// ✅ 修复：正确使用 async/await
 async function getData() {
   const data = await fetchData();
   render(data);
 }
 ```
 
-### 3. Race Conditions
+### 3. 竞态条件
 
 ```typescript
-// ❌ Problem: Race condition
+// ❌ 问题：竞态条件
 let user;
 fetchUser().then(u => user = u);
-console.log(user); // Might be undefined
+console.log(user); // 可能未定义
 
-// ✅ Fix: Proper async flow
+// ✅ 修复：正确的异步流程
 async function loadUser() {
   const user = await fetchUser();
-  console.log(user); // Always defined
+  console.log(user); // 总是已定义
 }
 ```
 
-### 4. Memory Leaks
+### 4. 内存泄漏
 
 ```typescript
-// ❌ Problem: Event listener not cleaned up
+// ❌ 问题：未清理的事件监听器
 useEffect(() => {
   window.addEventListener('resize', handleResize);
 }, []);
 
-// ✅ Fix: Cleanup in return
+// ✅ 修复：在返回中清理
 useEffect(() => {
   window.addEventListener('resize', handleResize);
   return () => window.removeEventListener('resize', handleResize);
 }, []);
 ```
 
-### 5. Stale Closures
+### 5. 闭包陈旧值
 
 ```typescript
-// ❌ Problem: Stale closure
+// ❌ 问题：闭包陈旧值
 for (var i = 0; i < 3; i++) {
-  setTimeout(() => console.log(i), 100); // Prints 3,3,3
+  setTimeout(() => console.log(i), 100); // 打印 3,3,3
 }
 
-// ✅ Fix: Use let or closure
+// ✅ 修复：使用 let 或闭包
 for (let i = 0; i < 3; i++) {
-  setTimeout(() => console.log(i), 100); // Prints 0,1,2
+  setTimeout(() => console.log(i), 100); // 打印 0,1,2
 }
 ```
 
-## Debugging Tools
+## 调试工具
 
-### Browser DevTools
+### 浏览器 DevTools
 
-| Tab | Use For |
-|-----|---------|
-| Console | Log output, errors |
-| Network | API requests, timing |
-| Sources | Breakpoints, stepping |
-| Elements | DOM inspection |
-| Performance | Performance issues |
-| Memory | Memory leaks |
+| 标签页 | 用途 |
+|--------|------|
+| Console | 日志输出、错误 |
+| Network | API 请求、计时 |
+| Sources | 断点、逐步调试 |
+| Elements | DOM 检查 |
+| Performance | 性能问题 |
+| Memory | 内存泄漏 |
 
-### VS Code Debugging
+### VS Code 调试
 
 ```json
-// launch.json configuration
+// launch.json 配置
 {
   "type": "node",
   "request": "launch",
-  "name": "Debug Tests",
+  "name": "调试测试",
   "program": "${workspaceFolder}/node_modules/jest/bin/jest.js",
   "args": ["--runInBand"],
   "console": "integratedTerminal"
 }
 ```
 
-### Logging Best Practices
+### 日志最佳实践
 
 ```typescript
-// ✅ Good: Structured logging
-logger.info('User created', {
+// ✅ 好：结构化日志
+logger.info('用户已创建', {
   userId: user.id,
   email: user.email,
   duration: performance.now() - start
 });
 
-// ✅ Good: Context in errors
-throw new Error(`Failed to fetch user ${userId}`, {
+// ✅ 好：错误中包含上下文
+throw new Error(`获取用户 ${userId} 失败`, {
   cause: error
 });
 
-// ❌ Bad: Console.log spam
+// ❌ 不好：console.log 轰炸
 console.log('here1');
 console.log('here2');
 console.log(user);
 ```
 
-## Debugging Commands
+## 调试命令
 
-### Git Debugging
+### Git 调试
 
 ```bash
-# Find the commit that broke something
+# 找到引入问题的提交
 git bisect start
 git bisect bad
 git bisect good v1.0.0
 
-# See who introduced a line
+# 查看谁添加了这一行
 git blame -L 10,20 file.ts
 
-# View history of a function
+# 查看函数的历史
 git log -p --follow functionName
 
-# See what changed in a commit
+# 查看提交中的更改
 git show <commit>
 ```
 
-### Node.js Debugging
+### Node.js 调试
 
 ```bash
-# Debug with Node
+# 使用 Node 调试
 node --inspect index.js
 
-# Debug with Chrome DevTools
+# 使用 Chrome DevTools 调试
 chrome://inspect
 
-# Debug tests
+# 调试测试
 node --inspect-brk node_modules/.bin/jest
 
-# Memory profiling
+# 内存分析
 node --prof app.js
 ```
 
-## Common Error Messages
+## 常见错误消息
 
 ### "Cannot read property of undefined"
 
 ```typescript
-// Check: Is the property defined?
-// Fix: Use optional chaining or null check
+// 检查：属性是否已定义？
+// 修复：使用可选链或空值检查
 ```
 
 ### "Promise rejected"
 
 ```typescript
-// Check: Are you handling promise rejections?
-// Fix: Add .catch() or use try/catch with await
+// 检查：你是否处理了 promise 拒绝？
+// 修复：添加 .catch() 或使用 try/catch 和 await
 ```
 
 ### "Maximum call stack exceeded"
 
 ```typescript
-// Check: Infinite recursion?
-// Fix: Add base case to recursive function
+// 检查：无限递归？
+// 修复：向递归函数添加基准情况
 ```
 
 ### "CORS error"
 
 ```typescript
-// Check: Server allows origin?
-// Fix: Configure CORS headers on server
+// 检查：服务器允许来源？
+// 修复：在服务器上配置 CORS 头
 ```
 
-### " ECONNREFUSED"
+### "ECONNREFUSED"
 
 ```typescript
-// Check: Is the service running?
-// Fix: Start the required service
+// 检查：服务是否运行？
+// 修复：启动所需服务
 ```
 
-## Testing Fixes
+## 测试修复
 
-### Unit Test for Bug
+### 错误的单元测试
 
 ```typescript
-it('should handle null user gracefully', () => {
-  // Arrange
+it('优雅处理空用户', () => {
+  // 安排
   const user = null;
 
-  // Act
+  // 执行
   const result = getUserDisplayName(user);
 
-  // Assert
-  expect(result).toBe('Guest');
+  // 断言
+  expect(result).toBe('访客');
 });
 ```
 
-### Regression Test
+### 回归测试
 
 ```typescript
-it('should not regress bug #123', () => {
-  // Reproduce the exact scenario from the bug report
-  const input = { /* bug report scenario */ };
+it('不应回归错误 #123', () => {
+  // 复现错误报告中的确切场景
+  const input = { /* 错误报告场景 */ };
   expect(processInput(input)).not.toBeNull();
 });
 ```
 
-## Anti-Patterns
+## 反模式
 
-### Don't
+### 不要做
 
-- ❌ Use console.log instead of proper debugging
-- ❌ Guess and try random fixes
-- ❌ Ignore error messages
-- ❌ Make changes without understanding the problem
-- ❌ Fix symptoms instead of root cause
+- ❌ 使用 console.log 而不是适当的调试
+- ❌ 猜测并尝试随机修复
+- ❌ 忽略错误消息
+- ❌ 在理解问题之前做更改
+- ❌ 修复症状而不是根本原因
 
-### Do
+### 应该做
 
-- ✅ Read error messages carefully
-- ✅ Create minimal reproduction
-- ✅ Use debugging tools effectively
-- ✅ Fix root cause, not symptoms
-- ✅ Write tests to prevent regression
+- ✅ 仔细阅读错误消息
+- ✅ 创建最小复现
+- ✅ 有效使用调试工具
+- ✅ 修复根本原因，而不是症状
+- ✅ 编写测试防止回归
 
-## Debugging Checklist
+## 调试清单
 
-- [ ] Reproduced the issue consistently
-- [ ] Gathered relevant logs
-- [ ] Identified the root cause
-- [ ] Implemented the fix
-- [ ] Verified the fix works
-- [ ] Checked for edge cases
-- [ ] Added regression test
-- [ ] Documented the fix
+- [ ] 一致地复现问题
+- [ ] 收集相关日志
+- [ ] 确定了根本原因
+- [ ] 实现了修复
+- [ ] 验证修复有效
+- [ ] 检查了边界情况
+- [ ] 添加了回归测试
+- [ ] 记录了修复
 
 ---
 
-## References
+## 参考资料
 
-- VS Code Debugging: https://code.visualstudio.com/docs/editor/debugging
-- Chrome DevTools: https://developer.chrome.com/docs/devtools
-- Node.js Debugging: https://nodejs.org/en/docs/guides/debugging-getting-started/
+- VS Code 调试：https://code.visualstudio.com/docs/editor/debugging
+- Chrome DevTools：https://developer.chrome.com/docs/devtools
+- Node.js 调试：https://nodejs.org/en/docs/guides/debugging-getting-started/

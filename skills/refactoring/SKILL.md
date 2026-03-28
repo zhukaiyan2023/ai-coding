@@ -1,64 +1,64 @@
 ---
 name: refactoring
-description: Safe code refactoring skill for improving code quality without changing behavior. Use when improving existing code, reducing complexity, or applying design patterns.
+description: 安全的代码重构技能，用于在不改变行为的情况下提高代码质量。在改进现有代码、减少复杂性或应用设计模式时使用。
 ---
 
-# Refactoring Skill
+# 重构技能
 
-## Overview
+## 概述
 
-This skill provides safe refactoring techniques that improve code quality while maintaining existing behavior. It emphasizes small, incremental changes backed by tests.
+此技能提供安全的重构技术，在保持现有行为的同时提高代码质量。它强调小的、增量式的更改，并由测试支持。
 
-## When to Use
+## 使用场景
 
-- Improving code readability
-- Reducing complexity
-- Applying design patterns
-- Removing code duplication
-- Technical debt cleanup
-- Before adding new features
+- 提高代码可读性
+- 减少复杂性
+- 应用设计模式
+- 消除代码重复
+- 技术债务清理
+- 在添加新功能之前
 
-## Refactoring Principles
+## 重构原则
 
-### 1. Boy Scout Rule
+### 1. 童子军规则
 
-> "Always leave the code better than you found it"
-
-```
-✅ Small improvements: Rename, extract, inline
-✅ Remove dead code
-✅ Fix naming
-❌ Don't change behavior
-```
-
-### 2. Small Steps
+> "始终让代码比发现时更好"
 
 ```
-✅ Make small, incremental changes
-✅ Run tests after each change
-✅ Commit frequently
-
-❌ Don't rewrite entire modules
-❌ Don't combine multiple refactorings
+✅ 小改进：重命名、提取、内联
+✅ 删除死代码
+✅ 修复命名
+❌ 不改变行为
 ```
 
-### 3. Tests First
+### 2. 小步骤
 
 ```
-✅ Ensure tests exist before refactoring
-✅ Run tests to verify behavior unchanged
-✅ Add tests for uncovered code
+✅ 做小的、增量式的更改
+✅ 每次更改后运行测试
+✅ 频繁提交
 
-❌ Don't remove tests
-❌ Don't refactor without tests
+❌ 不重写整个模块
+❌ 不合并多个重构
 ```
 
-## Common Refactorings
+### 3. 测试优先
 
-### 1. Extract Function
+```
+✅ 重构前确保测试存在
+✅ 运行测试验证行为不变
+✅ 为未覆盖的代码添加测试
+
+❌ 不删除测试
+❌ 不在没有测试的情况下重构
+```
+
+## 常见重构
+
+### 1. 提取函数
 
 ```typescript
-// ❌ Before: Long function
+// ❌ 之前：长函数
 function processOrder(order) {
   validateOrder(order);
   calculateTotal(order);
@@ -69,7 +69,7 @@ function processOrder(order) {
   return order;
 }
 
-// ✅ After: Extracted functions
+// ✅ 之后：提取的函数
 function processOrder(order) {
   validateOrder(order);
   calculateOrderTotal(order);
@@ -80,27 +80,27 @@ function processOrder(order) {
 }
 ```
 
-### 2. Rename Variables
+### 2. 重命名变量
 
 ```typescript
-// ❌ Before: Unclear names
+// ❌ 之前：名称不清晰
 const d = new Date();
 const x = users.filter(u => u.a > 18);
 
-// ✅ After: Descriptive names
+// ✅ 之后：描述性名称
 const currentDate = new Date();
 const adultUsers = users.filter(user => user.age > 18);
 ```
 
-### 3. Extract Constants
+### 3. 提取常量
 
 ```typescript
-// ❌ Before: Magic numbers
+// ❌ 之前：魔数
 if (user.score > 100) {
   setTimeout(() => update(user), 86400000);
 }
 
-// ✅ After: Named constants
+// ✅ 之后：命名的常量
 const MAX_SCORE = 100;
 const ONE_DAY_MS = 86400000;
 
@@ -109,23 +109,23 @@ if (user.score > MAX_SCORE) {
 }
 ```
 
-### 4. Use Optional Chaining
+### 4. 使用可选链
 
 ```typescript
-// ❌ Before: Nested conditionals
-let city = 'Unknown';
+// ❌ 之前：嵌套条件
+let city = '未知';
 if (user && user.profile && user.profile.address) {
   city = user.profile.address.city;
 }
 
-// ✅ After: Optional chaining
-const city = user?.profile?.address?.city ?? 'Unknown';
+// ✅ 之后：可选链
+const city = user?.profile?.address?.city ?? '未知';
 ```
 
-### 5. Extract to Hook
+### 5. 提取为 Hook
 
 ```typescript
-// ❌ Before: Logic in component
+// ❌ 之前：组件中的逻辑
 function UserProfile() {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -137,10 +137,10 @@ function UserProfile() {
     });
   }, []);
 
-  // ... rest of component
+  // ... 组件其余部分
 }
 
-// ✅ After: Custom hook
+// ✅ 之后：自定义 Hook
 function useUser() {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -157,14 +157,14 @@ function useUser() {
 
 function UserProfile() {
   const { user, loading } = useUser();
-  // ... rest of component
+  // ... 组件其余部分
 }
 ```
 
-### 6. Replace Conditional with Polymorphism
+### 6. 用多态替换条件
 
 ```typescript
-// ❌ Before: Switch statement
+// ❌ 之前：switch 语句
 class PaymentProcessor {
   process(payment) {
     switch (payment.type) {
@@ -178,7 +178,7 @@ class PaymentProcessor {
   }
 }
 
-// ✅ After: Polymorphism
+// ✅ 之后：多态
 abstract class Payment {
   abstract process(): PaymentResult;
 }
@@ -192,15 +192,15 @@ class DebitPayment extends Payment {
 }
 ```
 
-### 7. Introduce Parameter Object
+### 7. 引入参数对象
 
 ```typescript
-// ❌ Before: Many parameters
+// ❌ 之前：许多参数
 function createUser(name, email, age, address, phone, company) {
   // ...
 }
 
-// ✅ After: Parameter object
+// ✅ 之后：参数对象
 interface UserDetails {
   name: string;
   email: string;
@@ -215,139 +215,139 @@ function createUser(details: UserDetails) {
 }
 ```
 
-## Code Smells
+## 代码异味
 
-### 1. Long Function
-
-```
-Symptoms: Functions > 30 lines
-Solution: Extract into smaller functions
-```
-
-### 2. Large Class
+### 1. 长函数
 
 ```
-Symptoms: Class > 200 lines
-Solution: Split into smaller classes using SRP
+症状：函数 > 30 行
+解决方案：提取为更小的函数
 ```
 
-### 3. Duplicate Code
+### 2. 大类
 
 ```
-Symptoms: Same code in multiple places
-Solution: Extract to shared function/module
+症状：类 > 200 行
+解决方案：使用单一职责原则拆分为更小的类
 ```
 
-### 4. Magic Numbers
+### 3. 重复代码
 
 ```
-Symptoms: Numbers without explanation
-Solution: Extract to named constants
+症状：多处相同代码
+解决方案：提取到共享函数/模块
 ```
 
-### 5. God Object
+### 4. 魔数
 
 ```
-Symptoms: Object knows/touches too much
-Solution: Use dependency injection
+症状：数字没有解释
+解决方案：提取为命名的常量
 ```
 
-### 6. Feature Envy
+### 5. 上帝对象
 
 ```
-Symptoms: Class uses another class's data too much
-Solution: Move method to that class
+症状：对象知道/接触太多
+解决方案：使用依赖注入
 ```
 
-## Refactoring Checklist
+### 6. 特性羡慕
 
-### Before Refactoring
+```
+症状：类过多使用另一个类的数据
+解决方案：将方法移到该类
+```
 
-- [ ] Tests exist and pass
-- [ ] Code is version controlled
-- [ ] You understand the current behavior
-- [ ] Backup branch created
+## 重构清单
 
-### During Refactoring
+### 重构前
 
-- [ ] Small, incremental changes
-- [ ] Tests still pass after each change
-- [ ] No new linting errors
-- [ ] TypeScript compiles without errors
+- [ ] 测试存在且通过
+- [ ] 代码在版本控制中
+- [ ] 你理解当前行为
+- [ ] 已创建备份分支
 
-### After Refactoring
+### 重构期间
 
-- [ ] All tests pass
-- [ ] Behavior unchanged (verified)
-- [ ] No duplicate code
-- [ ] Code is more readable
-- [ ] Complexity reduced
+- [ ] 小的、增量式的更改
+- [ ] 每次更改后测试仍然通过
+- [ ] 无新的 linting 错误
+- [ ] TypeScript 无错误编译
 
-## Safe Refactoring Order
+### 重构后
 
-1. **Rename** - Low risk, high clarity
-2. **Extract** - Low risk, improves structure
-3. **Move** - Medium risk, reorganize
-4. **Inline** - Low risk, removes indirection
-5. **Replace** - Higher risk, change patterns
+- [ ] 所有测试通过
+- [ ] 行为未改变（已验证）
+- [ ] 无重复代码
+- [ ] 代码更可读
+- [ ] 复杂性降低
 
-## When NOT to Refactor
+## 安全重构顺序
 
-- ❌ When deadline is imminent
-- ❌ On a feature branch (unless it's the purpose)
-- ❌ Without tests (create tests first)
-- ❌ When you don't understand the code
-- ❌ In production emergency (fix bug first)
+1. **重命名** - 低风险，高清晰度
+2. **提取** - 低风险，改进结构
+3. **移动** - 中等风险，重新组织
+4. **内联** - 低风险，移除间接层
+5. **替换** - 较高风险，改变模式
 
-## Git Workflow for Refactoring
+## 何时不重构
+
+- ❌ 截止日期临近时
+- ❌ 在功能分支上（除非是目的）
+- ❌ 没有测试时（先创建测试）
+- ❌ 当你不理解代码时
+- ❌ 生产紧急情况（先修复错误）
+
+## Git 重构工作流
 
 ```bash
-# Create refactoring branch
+# 创建重构分支
 git checkout -b refactor/user-service
 
-# Make small commits
-git commit -m "refactor: extract validation to separate function"
-git commit -m "refactor: rename variables for clarity"
-git commit -m "refactor: extract custom useUser hook"
+# 做小提交
+git commit -m "refactor: 将验证提取到单独函数"
+git commit -m "refactor: 重命名变量提高清晰度"
+git commit -m "refactor: 提取自定义 useUser Hook"
 
-# Run full test suite
+# 运行完整测试套件
 npm test
 
-# Create PR with clear description
+# 创建带有清晰描述的 PR
 ```
 
-## Anti-Patterns
+## 反模式
 
-### Don't
+### 不要做
 
-- ❌ Refactor and add features simultaneously
-- ❌ Leave tests failing during refactoring
-- ❌ Change behavior while refactoring
-- ❌ Refactor code you don't understand
-- ❌ Make large, sweeping changes
+- ❌ 同时重构和添加功能
+- ❌ 在重构期间留下失败的测试
+- ❌ 改变行为的同时重构
+- ❌ 重构你不理解的代码
+- ❌ 做大的、彻底的更改
 
-### Do
+### 应该做
 
-- ✅ Keep refactoring focused and small
-- ✅ Run tests after each change
-- ✅ Write tests for uncovered code
-- ✅ Use linters and formatters
-- ✅ Document significant changes
+- ✅ 保持重构专注且小
+- ✅ 每次更改后运行测试
+- ✅ 为未覆盖的代码写测试
+- ✅ 使用 linters 和 formatters
+- ✅ 记录重大更改
 
-## Tools for Refactoring
+## 重构工具
 
-| Tool | Purpose |
-|------|---------|
-| VS Code | Rename, extract, inline |
-| ESLint | Detect code smells |
-| Prettier | Format code |
-| Jest | Verify behavior |
-| Git | Version control |
+| 工具 | 用途 |
+|------|------|
+| VS Code | 重命名、提取、内联 |
+| ESLint | 检测代码异味 |
+| Prettier | 格式化代码 |
+| Jest | 验证行为 |
+| Git | 版本控制 |
 
 ---
 
-## References
+## 参考资料
 
-- Martin Fowler's Refactoring: https://refactoring.com/
-- Clean Code by Robert Martin
-- Working Effectively with Legacy Code
+- Martin Fowler 的重构：https://refactoring.com/
+- 《代码整洁之道》Robert Martin
+- 《有效处理遗留代码》
