@@ -1,0 +1,57 @@
+#!/bin/sh
+# Pre-push hook for security and build verification
+
+# Colors for output
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+YELLOW='\033[1;33m'
+NC='\033[0m' # No Color
+
+echo "${GREEN}Running pre-push checks...${NC}"
+
+# Get current branch
+BRANCH=$(git symbolic-ref --short HEAD 2>/dev/null)
+
+# Check if we're pushing to main/master
+if [ "$BRANCH" = "main" ] || [ "$BRANCH" = "master" ]; then
+  echo "${YELLOW}You are about to push directly to $BRANCH!${NC}"
+  read -p "Are you sure? (y/n) " -n 1 -r
+  echo
+  if [[ ! $REPLY =~ ^[Yy]$ ]]; then
+    echo "${YELLOW}Push cancelled.${NC}"
+    exit 1
+  fi
+fi
+
+# Check for security vulnerabilities
+if [ -f "package.json" ]; then
+  echo "${GREEN}Checking for security vulnerabilities...${NC}"
+  npx audit-ci --config .auditci.json 2>/dev/null || npm audit --audit-level=high
+  if [ $? -ne 0 ]; then
+    echo "${RED}Security vulnerabilities found!${NC}"
+    exit 1
+  fi
+fi
+
+# Run full test suite
+if [ -f "jest.config.js" ] || [ -f "jest.config.ts" ]; then
+  echo "${GREEN}Running full test suite...${NC}"
+  npx jest --coverage --passWithNoTests
+  if [ $? -ne 0 ]; then
+    echo "${RED}Tests failed!${NC}"
+    exit 1
+  fi
+fi
+
+# Build check
+if [ -f "package.json" ]; then
+  echo "${GREEN}Building project...${NC}"
+  npm run build
+  if [ $? -ne 0 ]; then
+    echo "${RED}Build failed!${NC}"
+    exit 1
+  fi
+fi
+
+echo "${GREEN}All pre-push checks passed!${NC}"
+exit 0
