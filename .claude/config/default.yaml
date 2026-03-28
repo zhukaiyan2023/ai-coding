@@ -56,16 +56,24 @@ java:
   home: "/opt/homebrew/opt/openjdk@21/libexec/openjdk.jdk/Contents/Home"
 
 linting:
+  config_dir: ".claude/config/lint"
+  
   java:
-    tool: "spotbugs" | "checkstyle"
+    tool: "checkstyle"
+    config: ".claude/config/lint/checkstyle.xml"
     strict: true
     
   typescript:
     tool: "eslint"
+    config: ".claude/config/lint/.eslintrc.json"
     strict: true
     
   swift:
     tool: "swiftlint"
+    config: ".claude/config/lint/.swiftlint.yml"
+    
+  prettier:
+    config: ".claude/config/lint/.prettierrc"
 
 testing:
   coverage_threshold: 80
