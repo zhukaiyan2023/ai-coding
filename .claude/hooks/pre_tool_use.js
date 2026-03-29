@@ -94,7 +94,7 @@ module.exports = async (ctx) => {
   try {
     fs.appendFileSync(LOG_FILE, JSON.stringify(log) + '\n');
   } catch (e) {
-    // ignore
+    console.error('[pre_tool_use] Failed to write log:', e.message);
   }
 
   console.log('[pre_tool_use] skill analysis:', log.selected || 'none');

@@ -118,11 +118,11 @@ module.exports = async (ctx) => {
     log.missCount = missed.length;
   }
 
-  // 写入日志
+  // 写入日志（无论有无 output）
   try {
     fs.appendFileSync(LOG_FILE, JSON.stringify(log) + '\n');
   } catch (e) {
-    // ignore
+    console.error('[post_tool_use] Failed to write log:', e.message);
   }
 
   console.log('[post_tool_use] rules hit:', log.hitCount || 0, 'missed:', log.missCount || 0);

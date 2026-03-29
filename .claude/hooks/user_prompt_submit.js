@@ -61,7 +61,9 @@ module.exports = async (ctx) => {
   const log = {
     timestamp: new Date().toISOString(),
     hook: 'user_prompt_submit',
-    type: 'skill_detection'
+    type: 'skill_detection',
+    prompt: prompt || null,
+    promptLength: prompt?.length || 0
   };
 
   if (prompt) {
@@ -71,13 +73,17 @@ module.exports = async (ctx) => {
 
     // 判断是否需要 SKILL_DECISION
     log.needDecision = !prompt.includes('[SKILL_DECISION]');
+  } else {
+    log.detectedSkills = [];
+    log.primarySkill = null;
+    log.needDecision = false;
   }
 
-  // 写入日志
+  // 写入日志（无论有无 prompt）
   try {
     fs.appendFileSync(LOG_FILE, JSON.stringify(log) + '\n');
   } catch (e) {
-    // ignore
+    console.error('[user_prompt_submit] Failed to write log:', e.message);
   }
 
   console.log('[user_prompt_submit] detected:', log.detectedSkills?.map(s => s.skill).join(', ') || 'none');

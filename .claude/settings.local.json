@@ -21,7 +21,11 @@
       "Bash(grep -E \"^\\\\#{2,3}\\\\s+\")",
       "Bash(grep -E \"^\\\\*\\\\*\\\\*.+\\\\*\\\\*$|^\\\\*\\\\*Source\\\\*\\\\*|^\\\\*\\\\*Status\\\\*\\\\*|^\\\\*\\\\*Description\\\\*\\\\*|^#### \")",
       "Read(//Users/kaiyan/.claude/skills/**)",
-      "Read(//Users/kaiyan/.claude/**)"
+      "Read(//Users/kaiyan/.claude/**)",
+      "Bash(gh repo:*)",
+      "Bash(python3 -c \"import sys,json; print\\(json.load\\(sys.stdin\\)[''''content'''']\\)\")",
+      "Bash(GIT_CURL_NO_SSL_REVOKE=1 git push 2>&1)",
+      "Bash(GIT_TRACE=1 GIT_CURL_VERBOSE=1 git push)"
     ]
   },
   "hooks": {

@@ -147,3 +147,18 @@ context:
   max_total: 8000
   per_skill_warning: 2000  # 超过此值警告精简
   auto_summary: true      # 自动摘要
+
+
+  claude-md-management Plugin · claude-plugins-official · ✔ enabled
+  code-review Plugin · claude-plugins-official · ✔ enabled
+  code-simplifier Plugin · claude-plugins-official · ✔ enabled
+  commit-commands Plugin · claude-plugins-official · ✔ enabled
+  context7 Plugin · claude-plugins-official · ✔ enabled
+  └ context7 MCP · ✘ failed
+  feature-dev Plugin · claude-plugins-official · ✔ enabled
+  frontend-design Plugin · claude-plugins-official · ✔ enabled
+  jdtls-lsp Plugin · claude-plugins-official · ✔ enabled
+  pr-review-toolkit Plugin · claude-plugins-official · ✔ enabled
+  ralph-loop Plugin · claude-plugins-official · ✔ enabled
+  security-guidance Plugin · claude-plugins-official · ✔ enabled
+  superpowers Plugin · claude-plugins-official · ✔ enabled
