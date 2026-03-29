@@ -1,0 +1,83 @@
+# Skills 按需加载配置
+# 根据任务类型自动加载需要的skills，控制context大小
+
+# Skills定义
+skills:
+  # ========== 开发者 Skills ==========
+  java-cola-developer:
+    name: "Java COLA Developer"
+    description: "Java 21 + Spring Boot 4 + COLA DDD"
+    trigger:
+      - ".java"
+      - "pom.xml"
+      - "build.gradle"
+      - "spring"
+      - "后端"
+      - "Java"
+    load_priority: 1
+    max_context: 2000  # 最大context tokens
+
+  react-developer:
+    name: "React Developer"
+    description: "React + TypeScript + Vite"
+    trigger:
+      - ".ts"
+      - ".tsx"
+      - "package.json"
+      - "react"
+      - "前端"
+    load_priority: 1
+    max_context: 1500
+
+  ios-developer:
+    name: "iOS Developer"
+    description: "Swift + UIKit/SwiftUI"
+    trigger:
+      - ".swift"
+      - "ios"
+      - "xcode"
+    load_priority: 1
+    max_context: 1500
+
+  harmony-developer:
+    name: "HarmonyOS Developer"
+    description: "ArkTS + ArkUI"
+    trigger:
+      - ".ets"
+      - "harmony"
+      - "鸿蒙"
+    load_priority: 1
+    max_context: 1500
+
+  # ========== 工具 Skills ==========
+  skills-monitor:
+    name: "Skills Monitor"
+    description: "监控skills使用情况"
+    trigger:
+      - "监控"
+      - "分析"
+      - "report"
+    load_priority: 10  # 低优先级，按需加载
+    max_context: 500
+
+# 加载策略
+loading:
+  # 自动加载 (根据文件类型)
+  auto_load:
+    - java-cola-developer
+    - react-developer
+
+  # 手动触发关键词
+  keywords:
+    "iOS": ios-developer
+    "Swift": ios-developer
+    "鸿蒙": harmony-developer
+    "HarmonyOS": harmony-developer
+    "分析": skills-monitor
+    "报告": skills-monitor
+
+# Context 控制
+context:
+  max_total: 8000
+  per_skill_warning: 2000  # 超过此值警告精简
+  auto_summary: true      # 自动摘要
