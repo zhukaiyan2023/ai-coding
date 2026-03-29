@@ -49,6 +49,54 @@ skills:
     load_priority: 1
     max_context: 1500
 
+  # ========== 文档 Skills ==========
+  product-doc-writer:
+    name: "Product Documentation Writer"
+    description: "PRD、产品规格、用户故事"
+    trigger:
+      - "PRD"
+      - "产品文档"
+      - "产品需求"
+      - "用户故事"
+      - "产品规格"
+    load_priority: 5
+    max_context: 800
+
+  requirement-doc-writer:
+    name: "Requirement Documentation Writer"
+    description: "技术需求文档、功能规范、验收标准"
+    trigger:
+      - "需求文档"
+      - "功能规范"
+      - "需求分析"
+      - "REQ"
+    load_priority: 5
+    max_context: 800
+
+  technical-doc-writer:
+    name: "Technical Documentation Writer"
+    description: "技术方案、架构文档、API文档、ADR"
+    trigger:
+      - "技术方案"
+      - "架构文档"
+      - "API文档"
+      - "ADR"
+      - "数据字典"
+    load_priority: 5
+    max_context: 1000
+
+  changelog-writer:
+    name: "Changelog Writer"
+    description: "变更日志、版本发布说明、Git Commit"
+    trigger:
+      - "CHANGELOG"
+      - "Release"
+      - "发布说明"
+      - "版本"
+      - "commit"
+    load_priority: 5
+    max_context: 500
+
   # ========== 工具 Skills ==========
   skills-monitor:
     name: "Skills Monitor"
@@ -59,6 +107,19 @@ skills:
       - "report"
     load_priority: 10  # 低优先级，按需加载
     max_context: 500
+
+  docs-quality-monitor:
+    name: "Docs-Quality Monitor"
+    description: "代码质量评分 + lint + 复杂度 + 文档同步"
+    trigger:
+      - "质量"
+      - "lint"
+      - "评分"
+      - "重构"
+      - "complexity"
+      - "测试"
+    load_priority: 5
+    max_context: 800
 
 # 加载策略
 loading:
@@ -75,6 +136,11 @@ loading:
     "HarmonyOS": harmony-developer
     "分析": skills-monitor
     "报告": skills-monitor
+    "PRD": product-doc-writer
+    "产品文档": product-doc-writer
+    "技术方案": technical-doc-writer
+    "CHANGELOG": changelog-writer
+    "Release": changelog-writer
 
 # Context 控制
 context:
