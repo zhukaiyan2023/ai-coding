@@ -74,3 +74,24 @@ Features/{Module}/
 - 架构模式实现
 - Combine响应式编程
 - CocoaPods/Swift Package集成
+
+## Skills使用监控
+
+### 必须记录
+每次完成任务后，必须在 `.claude/logs/skills-usage.log` 中记录：
+
+```
+[SKILL_LOADED] ios-developer | {timestamp} | {trigger_reason}
+[RULE_APPLIED] {规则名称} | {timestamp} | {使用详情}
+[RULE_SKIPPED] {规则名称} | {timestamp} | {未使用原因}
+```
+
+### 追踪的规则
+| 规则 | 追踪方式 | 未使用原因分析 |
+|------|---------|---------------|
+| Swift API Guidelines | 检查命名规范 | 检查代码风格 |
+| Protocol依赖注入 | 检查解耦方式 | 检查复杂度 |
+| @Published状态 | 检查响应式 | 检查必要性 |
+| Combine异步 | 检查响应式流 | 检查复杂性 |
+| MVVM架构 | 检查分离 | 检查过度设计 |
+| 错误处理 | 检查do-catch | 检查完整性 |
