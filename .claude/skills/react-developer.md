@@ -46,3 +46,25 @@ features/{module}/
 - [ ] 组件懒加载
 - [ ] 统一错误处理
 - [ ] 敏感数据不硬编码
+
+---
+
+## SKILL_DECISION (必须输出)
+
+```
+[SKILL_DECISION]
+selected_skill: react-developer
+reason: 涉及React前端开发
+rejected_skills:
+  - java-cola-developer: 不是后端任务
+  - ios-developer: 不是iOS任务
+  - harmony-developer: 不是鸿蒙任务
+
+rules_hit:
+  - TypeScript严格模式: 无any类型
+  - React.lazy: 使用了懒加载
+  - 状态管理: 使用了Zustand/ReactQuery
+
+rules_missed:
+  - 错误边界: 简单组件不需要
+```

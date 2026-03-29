@@ -1,0 +1,7 @@
+{
+  "hooks": {
+    "preToolUse": ".claude/hooks/pre_tool_use.js",
+    "postToolUse": ".claude/hooks/post_tool_use.js",
+    "userPromptSubmit": ".claude/hooks/user_prompt_submit.js"
+  }
+}
