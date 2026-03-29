@@ -97,28 +97,3 @@ public interface UserMapper {
 2. 核心功能真正工作
 3. 代码清晰可维护
 4. 边界条件和错误处理完善
-
-## Skills使用监控
-
-### 必须记录
-每次完成任务后，必须在 `.claude/logs/skills-usage.log` 中记录：
-
-```
-[SKILL_LOADED] java-cola-developer | {timestamp} | {trigger_reason}
-[RULE_APPLIED] {规则名称} | {timestamp} | {使用详情}
-[RULE_SKIPPED] {规则名称} | {timestamp} | {未使用原因}
-```
-
-### 追踪的规则
-| 规则 | 追踪方式 | 未使用原因分析 |
-|------|---------|---------------|
-| JDK 21 Record | 检查是否使用record定义DTO | 需主动推荐使用 |
-| MapStruct映射 | 检查是否使用MapStruct | 禁止BeanUtils检查 |
-| 三智能体架构 | Planner/Generator/Evaluator流程 | 检查是否分离 |
-| Sprint Contract | 实现前协商完成标准 | 检查是否执行 |
-| Build-Verify循环 | 每次实现后的验证 | 检查迭代次数 |
-| 参数校验 | @NotBlank/@Email使用 | 检查是否遗漏 |
-
-### Doom Loop检测
-- 同一文件修改超过3次：提示重新评估方案
-- 验证失败超过2次：暂停并重新分析
