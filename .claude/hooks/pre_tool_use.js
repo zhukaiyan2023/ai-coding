@@ -1,5 +1,5 @@
 /**
- * Pre Tool Use Hook - 通用版
+ * Pre Tool Use Hook
  * 自动检测项目中的所有skills并分析决策
  */
 
@@ -9,55 +9,45 @@ const path = require('path');
 const LOG_FILE = path.join(__dirname, '../logs/hook-log.jsonl');
 const SKILLS_DIR = path.join(__dirname, '../skills');
 
-// 自动扫描 skills 目录
 function scanSkills() {
   const skills = [];
-  
+
   try {
     const files = fs.readdirSync(SKILLS_DIR);
     for (const file of files) {
       if (file.endsWith('.md')) {
         const skillName = file.replace('.md', '');
         const content = fs.readFileSync(path.join(SKILLS_DIR, file), 'utf-8');
-        
-        // 提取关键词 (从 description 和标题)
         const keywords = extractKeywords(content, skillName);
-        
-        skills.push({
-          name: skillName,
-          keywords
-        });
+        skills.push({ name: skillName, keywords });
       }
     }
   } catch (e) {
     // skills 目录不存在，使用默认
   }
-  
+
   return skills;
 }
 
 function extractKeywords(content, skillName) {
   const keywords = [skillName];
-  
-  // 从标题提取
+
   const titleMatch = content.match(/^#\s+Skill:\s+(.+)$/m);
   if (titleMatch) {
     keywords.push(...titleMatch[1].toLowerCase().split(/\s+/));
   }
-  
-  // 从描述提取
+
   const descMatch = content.match(/##\s+描述\n(.+)/);
   if (descMatch) {
     keywords.push(...descMatch[1].toLowerCase().split(/\s+/));
   }
-  
-  // 过滤并去重
+
   return [...new Set(keywords.filter(k => k.length > 2))];
 }
 
 function matchSkills(text, skills) {
   const lowerText = text.toLowerCase();
-  
+
   return skills.map(skill => {
     const hits = skill.keywords.filter(k => lowerText.includes(k.toLowerCase()));
     return {
@@ -68,9 +58,36 @@ function matchSkills(text, skills) {
   }).sort((a, b) => b.matched - a.matched);
 }
 
-module.exports = async (ctx) => {
+function readStdin() {
+  return new Promise((resolve) => {
+    let data = '';
+    process.stdin.setEncoding('utf8');
+    process.stdin.on('readable', () => {
+      let chunk;
+      while ((chunk = process.stdin.read()) !== null) {
+        data += chunk;
+      }
+    });
+    process.stdin.on('end', () => resolve(data));
+    setTimeout(() => resolve(''), 100);
+  });
+}
+
+async function runHook(ctx) {
+  // Claude Code passes ctx via stdin when called as subprocess
+  if (!ctx || (typeof ctx === 'object' && Object.keys(ctx).length === 0)) {
+    try {
+      const stdinData = await readStdin();
+      if (stdinData.trim()) {
+        ctx = JSON.parse(stdinData);
+      }
+    } catch (e) {
+      // ignore parse errors
+    }
+  }
+
   const { toolName, input } = ctx;
-  
+
   const log = {
     timestamp: new Date().toISOString(),
     hook: 'pre_tool_use',
@@ -78,11 +95,9 @@ module.exports = async (ctx) => {
     type: 'skill_analysis'
   };
 
-  // 自动扫描 skills
   const skills = scanSkills();
   log.scannedSkills = skills.map(s => s.name);
 
-  // 分析 skill 匹配
   if (input && (input.prompt || input.message)) {
     const text = input.prompt || input.message;
     log.analysis = matchSkills(text, skills);
@@ -90,7 +105,6 @@ module.exports = async (ctx) => {
     log.rejected = log.analysis.filter(s => s.matched === 0).map(s => s.skill);
   }
 
-  // 写入日志
   try {
     fs.appendFileSync(LOG_FILE, JSON.stringify(log) + '\n');
   } catch (e) {
@@ -98,4 +112,14 @@ module.exports = async (ctx) => {
   }
 
   console.log('[pre_tool_use] skill analysis:', log.selected || 'none');
-};
+}
+
+module.exports = runHook;
+
+// 直接运行时
+if (require.main === module) {
+  readStdin().then(stdinData => {
+    const ctx = stdinData.trim() ? JSON.parse(stdinData) : {};
+    runHook(ctx);
+  });
+}

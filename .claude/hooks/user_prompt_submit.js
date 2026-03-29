@@ -1,5 +1,5 @@
 /**
- * User Prompt Submit Hook - 通用版
+ * User Prompt Submit Hook
  * 自动扫描 .claude/skills/ 目录检测匹配的 skill
  */
 
@@ -19,14 +19,12 @@ function analyzeWithSkillsDir(text) {
         const skillName = file.replace('.md', '');
         const content = fs.readFileSync(path.join(SKILLS_DIR, file), 'utf-8');
 
-        // 提取 skill 名称和描述中的关键词进行匹配
         const keywords = new Set([
           skillName,
           ...skillName.split('-'),
           ...skillName.split('_')
         ]);
 
-        // 从描述中提取额外关键词
         const descMatch = content.match(/##\s*描述\n(.+)/i);
         if (descMatch) {
           descMatch[1].toLowerCase().split(/\s+/).forEach(w => {
@@ -55,23 +53,47 @@ function analyzeWithSkillsDir(text) {
   return results.sort((a, b) => b.score - a.score);
 }
 
-module.exports = async (ctx) => {
-  const { prompt } = ctx;
+function readStdin() {
+  return new Promise((resolve) => {
+    let data = '';
+    process.stdin.setEncoding('utf8');
+    process.stdin.on('readable', () => {
+      let chunk;
+      while ((chunk = process.stdin.read()) !== null) {
+        data += chunk;
+      }
+    });
+    process.stdin.on('end', () => resolve(data));
+    setTimeout(() => resolve(''), 100);
+  });
+}
+
+async function runHook(ctx) {
+  // Claude Code passes ctx via stdin when called as subprocess
+  if (!ctx || (typeof ctx === 'object' && Object.keys(ctx).length === 0)) {
+    try {
+      const stdinData = await readStdin();
+      if (stdinData.trim()) {
+        ctx = JSON.parse(stdinData);
+      }
+    } catch (e) {
+      // ignore parse errors
+    }
+  }
+
+  const prompt = ctx?.prompt || null;
 
   const log = {
     timestamp: new Date().toISOString(),
     hook: 'user_prompt_submit',
     type: 'skill_detection',
-    prompt: prompt || null,
+    prompt,
     promptLength: prompt?.length || 0
   };
 
   if (prompt) {
-    // 基于 skills 目录检测
     log.detectedSkills = analyzeWithSkillsDir(prompt);
     log.primarySkill = log.detectedSkills[0]?.skill || null;
-
-    // 判断是否需要 SKILL_DECISION
     log.needDecision = !prompt.includes('[SKILL_DECISION]');
   } else {
     log.detectedSkills = [];
@@ -79,7 +101,6 @@ module.exports = async (ctx) => {
     log.needDecision = false;
   }
 
-  // 写入日志（无论有无 prompt）
   try {
     fs.appendFileSync(LOG_FILE, JSON.stringify(log) + '\n');
   } catch (e) {
@@ -87,4 +108,14 @@ module.exports = async (ctx) => {
   }
 
   console.log('[user_prompt_submit] detected:', log.detectedSkills?.map(s => s.skill).join(', ') || 'none');
-};
+}
+
+module.exports = runHook;
+
+// 直接运行时
+if (require.main === module) {
+  readStdin().then(stdinData => {
+    const ctx = stdinData.trim() ? JSON.parse(stdinData) : {};
+    runHook(ctx);
+  });
+}
