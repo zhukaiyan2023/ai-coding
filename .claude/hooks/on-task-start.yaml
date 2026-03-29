@@ -1,0 +1,41 @@
+# Task Start Logger Hook
+# 任务开始时记录当前激活的skills和agents
+
+name: Task Start Logger
+description: 任务开始时记录环境信息
+
+on:
+  - task_start
+  - pre_task
+
+jobs:
+  log-task-start:
+    name: Log Task Start
+    runs-on: ubuntu-latest
+    steps:
+      - name: Log Task Start
+        run: |
+          TIMESTAMP=$(date "+%Y-%m-%d %H:%M:%S")
+          TASK_TYPE="$CLAUDE_TASK_TYPE"
+          WORKING_DIR="$CLAUDE_WORKING_DIR"
+          
+          # 获取可用文件类型
+          EXTENSIONS=$(find . -type f \( -name "*.java" -o -name "*.ts" -o -name "*.tsx" -o -name "*.swift" -o -name "*.ets" \) 2>/dev/null | head -20 | xargs -I{} echo {} | sed 's/.*\.//' | sort -u | tr '\n' ' ')
+          
+          echo "[TASK_START] $TIMESTAMP | type: $TASK_TYPE | extensions: $EXTENSIONS" >> .claude/logs/task.log
+          
+          # 检测应该加载的skills
+          if echo "$EXTENSIONS" | grep -q "java"; then
+            echo "[SUGGEST_SKILL] java-cola-developer" >> .claude/logs/task.log
+          fi
+          if echo "$EXTENSIONS" | grep -q "ts"; then
+            echo "[SUGGEST_SKILL] react-developer" >> .claude/logs/task.log
+          fi
+          if echo "$EXTENSIONS" | grep -q "swift"; then
+            echo "[SUGGEST_SKILL] ios-developer" >> .claude/logs/task.log
+          fi
+          if echo "$EXTENSIONS" | grep -q "ets"; then
+            echo "[SUGGEST_SKILL] harmony-developer" >> .claude/logs/task.log
+          fi
+          
+          echo "Task started, detected potential skills"
