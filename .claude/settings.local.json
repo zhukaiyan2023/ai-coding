@@ -5,7 +5,12 @@
       "Bash(node:*)",
       "WebSearch",
       "Bash(git add:*)",
-      "Bash(git commit:*)"
+      "Bash(git commit:*)",
+      "Bash(wc:*)",
+      "Bash(mvn:*)",
+      "Bash(npm:*)",
+      "Bash(python:*)",
+      "Bash( pytest:*)"
     ]
   },
   "hooks": {
@@ -74,6 +79,15 @@
           {
             "type": "command",
             "command": "node .claude/hooks/lint-check.js"
+          }
+        ]
+      },
+      {
+        "matcher": "Write|Edit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node .claude/hooks/test-verify.js"
           }
         ]
       }
