@@ -91,8 +91,8 @@ function analyzeRuleHits(output, rulesData) {
 }
 
 module.exports = async (ctx) => {
-  const { toolName, output } = ctx;
-  
+  const { tool_name: toolName, tool_response: output } = ctx;
+
   const log = {
     timestamp: new Date().toISOString(),
     hook: 'post_tool_use',

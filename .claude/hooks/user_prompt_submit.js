@@ -31,7 +31,6 @@ const KEYWORD_MAP = {
   
   // 任务类型
   '开发': 'developer',
-  '开发': 'developer',
   'debug': 'debug',
   'bug': 'debug',
   '测试': 'test',

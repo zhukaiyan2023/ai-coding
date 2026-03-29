@@ -1,0 +1,34 @@
+# Claude Code
+.claude/settings.local.json
+.claude/logs/
+.claude/reports/
+
+# Logs
+*.log
+npm-debug.log*
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.idea/
+*.swp
+*.swo
+.vscode/
+
+# Dependencies
+node_modules/
+
+# Build outputs
+dist/
+build/
+*.class
+*.o
+*.pyc
+__pycache__/
+
+# Environment
+.env
+.env.local
+*.local
