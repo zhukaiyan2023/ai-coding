@@ -1,6 +1,20 @@
+---
+name: requirement-doc-writer
+description: 编写技术需求文档，引用 .claude/rules/requirement-docs.md 的 SMART 原则
+triggers:
+  - 需求文档
+  - 功能规范
+  - 需求分析
+  - REQ
+  - 需求
+---
+
 # Skill: Requirement Documentation Writer
 
+> 详细规范请参考 [requirement-docs.md](../rules/requirement-docs.md)
+
 ## 描述
+
 使用此 Skill 编写技术需求文档、需求规格说明书、功能规范等。
 
 ---
@@ -38,35 +52,23 @@
 ## 7. 排期估算
 ```
 
-### Step 4: 需求追踪
-
-```
-需求 → 设计 → 实现 → 测试 → 上线
-```
-
 ---
 
 ## 模板引用
 
-### 功能描述
-| 字段 | 说明 |
-|------|------|
-| ID | REQ-XXX |
-| 名称 | 功能名称 |
-| 描述 | 详细说明 |
-| 前置条件 | 触发条件 |
-| 后置条件 | 完成后状态 |
+详细模板请参考：`.claude/rules/requirement-docs.md`
 
-### 验收条件
-```
-Given [前置条件]
-When [操作]
-Then [预期结果]
-```
+| 模板 | 路径 |
+|------|------|
+| 功能描述模板 | `.claude/rules/requirement-docs.md` |
+| 验收条件模板 | `.claude/rules/requirement-docs.md` |
+| SMART 原则 | `.claude/rules/requirement-docs.md` |
 
 ---
 
 ## 检查清单
+
+详细清单请参考：`.claude/rules/requirement-docs.md`
 
 - [ ] 需求描述无歧义
 - [ ] 边界条件已覆盖

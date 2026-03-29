@@ -1,6 +1,21 @@
+---
+name: technical-doc-writer
+description: 编写技术方案、架构文档、API 文档、技术决策记录 (ADR)
+triggers:
+  - 技术方案
+  - 架构文档
+  - API 文档
+  - ADR
+  - 技术决策
+  - data dictionary
+---
+
 # Skill: Technical Documentation Writer
 
+> 对齐 [writing-plans](https://github.com/obra/superpowers) 最佳实践
+
 ## 描述
+
 使用此 Skill 编写技术方案、架构文档、API 文档、技术决策记录等。
 
 ---
@@ -48,9 +63,17 @@ paths:
         - name: id
           in: path
           required: true
+          schema:
+            type: integer
       responses:
         '200':
           description: 成功
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Resource'
+        '404':
+          description: 不存在
 ```
 
 ### Step 4: 数据字典
@@ -59,6 +82,8 @@ paths:
 |------|------|------|
 | id | bigint | 主键 |
 | status | tinyint | 状态 0-禁用 1-启用 |
+| created_at | datetime | 创建时间 |
+| updated_at | datetime | 更新时间 |
 
 ### Step 5: ADR 技术决策
 
@@ -66,14 +91,37 @@ paths:
 # ADR-XXX: 决策标题
 
 ## 状态
+ Accepted
+
 ## 背景
+描述问题和上下文
+
 ## 决策
+我们决定...
+
 ## 后果
+正面...
+负面...
 ```
 
 ---
 
+## 模板引用
+
+详细模板请参考：`.claude/rules/technical-docs.md`
+
+| 模板 | 路径 |
+|------|------|
+| 技术方案模板 | `.claude/rules/technical-docs.md` |
+| API 文档模板 | `.claude/rules/technical-docs.md` |
+| ADR 模板 | `.claude/rules/technical-docs.md` |
+| 数据字典 | `.claude/rules/technical-docs.md` |
+
+---
+
 ## 检查清单
+
+详细清单请参考：`.claude/rules/technical-docs.md`
 
 - [ ] 架构图清晰
 - [ ] 接口定义完整

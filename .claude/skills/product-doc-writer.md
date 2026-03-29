@@ -1,6 +1,20 @@
+---
+name: product-doc-writer
+description: 编写产品需求文档（PRD）、产品规格文档，引用 .claude/rules/product-docs.md
+triggers:
+  - PRD
+  - 产品需求文档
+  - 产品文档
+  - 用户故事
+  - 需求分析
+---
+
 # Skill: Product Documentation Writer
 
+> 详细规范请参考 [product-docs.md](../rules/product-docs.md)
+
 ## 描述
+
 使用此 Skill 编写产品需求文档（PRD）、产品规格文档、产品白皮书等。
 
 ---
@@ -49,17 +63,23 @@
 
 ## 模板引用
 
-- 用户故事: `作为[角色] 我想要[功能] 以便[价值]`
-- 功能描述: ID + 名称 + 描述 + 前置/后置条件
-- 状态机: `状态A → 事件X → 状态B`
+详细模板请参考：`.claude/rules/product-docs.md`
+
+| 模板 | 路径 |
+|------|------|
+| PRD 模板 | `.claude/rules/product-docs.md` |
+| 用户故事模板 | `.claude/rules/product-docs.md` |
+| MECE 分类 | `.claude/rules/product-docs.md` |
 
 ---
 
 ## 检查清单
 
+详细清单请参考：`.claude/rules/product-docs.md`
+
 - [ ] 用户故事覆盖核心场景
 - [ ] 需求符合 MECE 原则
-- [ ] 优先级分配合理
+- [ ] 优先级分配合理 (P0/P1/P2/P3)
 - [ ] 验收标准可测试
 - [ ] 指标定义清晰
 

@@ -10,7 +10,18 @@
       "Bash(mvn:*)",
       "Bash(npm:*)",
       "Bash(python:*)",
-      "Bash( pytest:*)"
+      "Bash( pytest:*)",
+      "WebFetch(domain:github.com)",
+      "Bash(gh api:*)",
+      "Bash(curl -s https://api.github.com/repos/karanb192/awesome-claude-skills/contents/readme.md)",
+      "Bash(python3 -c \"import sys,json; print\\(base64.b64decode\\(json.load\\(sys.stdin\\)[''''content'''']\\).decode\\(\\)\\)\")",
+      "Bash(curl -sL https://raw.githubusercontent.com/karanb192/awesome-claude-skills/main/README.md)",
+      "WebFetch(domain:docs.claude.com)",
+      "WebFetch(domain:plugins.jetbrains.com)",
+      "Bash(grep -E \"^\\\\#{2,3}\\\\s+\")",
+      "Bash(grep -E \"^\\\\*\\\\*\\\\*.+\\\\*\\\\*$|^\\\\*\\\\*Source\\\\*\\\\*|^\\\\*\\\\*Status\\\\*\\\\*|^\\\\*\\\\*Description\\\\*\\\\*|^#### \")",
+      "Read(//Users/kaiyan/.claude/skills/**)",
+      "Read(//Users/kaiyan/.claude/**)"
     ]
   },
   "hooks": {
@@ -32,6 +43,10 @@
           {
             "type": "command",
             "command": "node .claude/hooks/pre_tool_use.js"
+          },
+          {
+            "type": "command",
+            "command": "node .claude/hooks/pre_dev_check.js"
           }
         ]
       }
@@ -43,6 +58,10 @@
           {
             "type": "command",
             "command": "node .claude/hooks/post_tool_use.js"
+          },
+          {
+            "type": "command",
+            "command": "node .claude/hooks/post_dev_review.js"
           }
         ]
       },
