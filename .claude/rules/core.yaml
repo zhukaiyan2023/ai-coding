@@ -1,0 +1,41 @@
+# Core Rules - 始终加载
+# 严格控制在50行以内
+
+rules:
+  # 代码质量
+  - id: no-secrets
+    description: "禁止硬编码 secrets/keys/tokens"
+    severity: critical
+    
+  - id: proper-error-handling
+    description: "必须有错误处理"
+    severity: critical
+    
+  - id: proper-logging
+    description: "关键节点必须日志"
+    severity: important
+
+  # 安全
+  - id: input-validation
+    description: "必须校验输入"
+    severity: critical
+    
+  - id: sql-injection
+    description: "防止SQL注入"
+    severity: critical
+
+  # 最佳实践
+  - id: meaningful-names
+    description: "命名必须有意义"
+    severity: important
+    
+  - id: single-responsibility
+    description: "单一职责原则"
+    severity: important
+
+# 触发条件
+triggers:
+  by_file_type:
+    java: ["no-secrets", "proper-error-handling", "input-validation", "sql-injection"]
+    ts: ["no-secrets", "proper-error-handling", "input-validation"]
+    swift: ["no-secrets", "proper-error-handling"]

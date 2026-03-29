@@ -1,0 +1,81 @@
+# 规则分层系统配置
+# 通过分层实现按需加载，控制context大小
+
+# 层级说明:
+# - core: 始终加载，每个任务必读 (极简)
+# - standard: 常规任务加载 (常规)
+# - extended: 复杂任务按需加载 (扩展)
+# - reference: 仅作参考，不自动加载 (参考)
+
+layers:
+  # ========== 核心层 - 必须加载 ==========
+  core:
+    description: "每个任务必须加载的核心规则，极简"
+    files:
+      - "rules/core.yaml"           # 核心规范
+    max_lines: 50                   # 严格限制行数
+
+  # ========== 标准层 - 常规任务 ==========
+  standard:
+    description: "常规开发任务加载"
+    files:
+      - "rules/java-cola-core.md"   # Java核心规范
+      - "rules/react-core.md"       # React核心规范
+    max_lines: 100                  # 每个文件限制
+
+  # ========== 扩展层 - 复杂任务 ==========
+  extended:
+    description: "复杂任务按需加载"
+    files:
+      - "rules/harness.md"         # 三智能体架构
+      - "rules/ddd-patterns.md"     # DDD模式详解
+      - "rules/performance.md"     # 性能优化规则
+
+  # ========== 参考层 - 仅参考 ==========
+  reference:
+    description: "仅作参考，不自动加载"
+    files:
+      - "rules/best-practices.md"   # 最佳实践
+      - "rules/anti-patterns.md"   # 反模式
+      - "rules/troubleshooting.md" # 问题排查
+
+# 加载策略
+loading:
+  # 自动加载层级
+  auto:
+    - core                          # 始终加载
+    - standard                      # 常规任务加载
+  
+  # 按文件类型触发
+  by_extension:
+    ".java": ["java-cola-core"]
+    ".ts": ["react-core"]
+    ".tsx": ["react-core"]
+    ".swift": ["ios-core"]
+    ".ets": ["harmony-core"]
+  
+  # 按关键词触发
+  by_keyword:
+    "harness": ["harness"]
+    "ddd": ["ddd-patterns"]
+    "性能": ["performance"]
+    "优化": ["performance"]
+
+# Context预算 (token)
+budget:
+  max_total: 8000
+  core: 500
+  standard: 2000
+  extended: 3000
+  reference: 0  # 不加载
+
+# 优化建议
+optimization:
+  # 超过此行数自动警告
+  warn_line_count: 100
+  
+  # 超过此token自动建议精简
+  warn_token_count: 6000
+  
+  # 自动摘要阈值
+  auto_summary_threshold: 3  # 规则被引用3次后自动摘要
