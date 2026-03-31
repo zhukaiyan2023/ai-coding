@@ -4,3 +4,7 @@ claudecode 上下文腐烂问题 :https://github.com/gsd-build/get-shit-done/blo
 claudecode https://github.com/anthropics/claude-code-action
 claudecode 学习 ： https://github.com/shareAI-lab/learn-claude-code
 metabot ：https://github.com/xvirobotics/metabot
+
+
+
+claude --dangerously-skip-permissions
